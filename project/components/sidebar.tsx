@@ -1,10 +1,11 @@
-"use client";
+"use client"; // Mark this as a Client Component for useState, etc.
 
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus, File, FileText } from 'lucide-react';
 import { Note } from '@/types/note';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'; // Utility to conditionally combine class names
 
+// Props expected by Sidebar component
 interface SidebarProps {
   notes: Note[];
   activeNoteId: string | null;
@@ -12,22 +13,25 @@ interface SidebarProps {
   onCreateNoteAction: () => void;
 }
 
+// Sidebar for displaying and managing notes
 export function Sidebar({ 
   notes, 
   activeNoteId, 
   onNoteSelectAction,
   onCreateNoteAction 
 }: SidebarProps) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false); // toggles collapse/expand
 
   return (
     <div 
       className={cn(
         "border-r h-full bg-card flex flex-col transition-all duration-300", 
-        collapsed ? "w-[60px]" : "w-[260px]"
+        collapsed ? "w-[60px]" : "w-[260px]" // adjust width when collapsed
       )}
     >
+      {/* Header with title and collapse button */}
       <div className="flex items-center justify-between p-4 border-b">
+        {/* Only show title when not collapsed */}
         {!collapsed && (
           <h1 className="font-semibold text-lg">Notes</h1>
         )}
@@ -39,7 +43,9 @@ export function Sidebar({
         </button>
       </div>
       
+      {/* Notes List */}
       <div className="flex-1 overflow-y-auto">
+        {/* No notes available */}
         {notes.length === 0 ? (
           <div className="p-4 text-center text-muted-foreground">
             {!collapsed && "No notes yet. Create your first note!"}
@@ -49,13 +55,16 @@ export function Sidebar({
             {notes.map((note) => (
               <li key={note.id}>
                 <button
-                  onClick={() =>  onNoteSelectAction(note.id)}
+                  onClick={() =>  onNoteSelectAction(note.id)} // Selects note
                   className={cn(
                     "w-full text-left px-3 py-2 rounded-md flex items-center gap-2 hover:bg-accent/50 transition-colors",
-                    activeNoteId === note.id && "bg-accent"
+                    activeNoteId === note.id && "bg-accent" // highlight active note
                   )}
                 >
+                  {/* Show file icon based on whether note has content */}
                   {note.content ? <FileText size={18} /> : <File size={18} />}
+                  
+                  {/* Show title if not collapsed */}
                   {!collapsed && (
                     <span className="truncate">{note.title || "Untitled"}</span>
                   )}
@@ -66,6 +75,7 @@ export function Sidebar({
         )}
       </div>
       
+      {/* Create New Note Button (Bottom) */}
       <div className="border-t p-3">
         <button
           onClick={onCreateNoteAction}

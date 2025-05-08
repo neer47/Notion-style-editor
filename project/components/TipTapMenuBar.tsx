@@ -14,12 +14,13 @@ import {
   Strikethrough,
   Undo,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"; // Utility to conditionally join Tailwind class names
 
+// Toolbar for the TipTap rich text editor
 const TipTapMenuBar = ({ editor }: { editor: Editor }) => {
-  // Define menu items with logical groupings and dividers
+  // Define toolbar buttons with their actions, icons, and active state
   const menuItems = [
-    // Text styles
+    // --- Text styles ---
     {
       icon: <Bold size={16} />,
       title: 'Bold',
@@ -48,8 +49,10 @@ const TipTapMenuBar = ({ editor }: { editor: Editor }) => {
       isActive: () => editor.isActive('code'),
       disabled: !editor.can().chain().focus().toggleCode().run(),
     },
-    { type: 'divider' },
-    // Headings
+
+    { type: 'divider' }, // UI separator
+
+    // --- Headings ---
     {
       icon: <Heading1 size={16} />,
       title: 'Heading 1',
@@ -68,8 +71,10 @@ const TipTapMenuBar = ({ editor }: { editor: Editor }) => {
       action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
       isActive: () => editor.isActive('heading', { level: 3 }),
     },
+
     { type: 'divider' },
-    // Lists
+
+    // --- Lists ---
     {
       icon: <List size={16} />,
       title: 'Bullet List',
@@ -82,8 +87,10 @@ const TipTapMenuBar = ({ editor }: { editor: Editor }) => {
       action: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: () => editor.isActive('orderedList'),
     },
+
     { type: 'divider' },
-    // Block-level elements
+
+    // --- Block-level elements ---
     {
       icon: <CodepenIcon size={16} />,
       title: 'Code Block',
@@ -96,8 +103,10 @@ const TipTapMenuBar = ({ editor }: { editor: Editor }) => {
       action: () => editor.chain().focus().toggleBlockquote().run(),
       isActive: () => editor.isActive('blockquote'),
     },
+
     { type: 'divider' },
-    // Undo/Redo
+
+    // --- Undo/Redo ---
     {
       icon: <Undo size={16} />,
       title: 'Undo',
@@ -114,6 +123,7 @@ const TipTapMenuBar = ({ editor }: { editor: Editor }) => {
 
   return (
     <div className="border-b p-2 flex items-center space-x-1 overflow-x-auto bg-card">
+      {/* Render buttons or dividers */}
       {menuItems.map((item, index) =>
         item.type === 'divider' ? (
           <div key={index} className="w-[1px] h-6 bg-border mx-1" />
@@ -124,8 +134,9 @@ const TipTapMenuBar = ({ editor }: { editor: Editor }) => {
             disabled={'disabled' in item ? item.disabled : false}
             className={cn(
               "p-2 rounded hover:bg-accent transition-colors",
-              // @ts-ignore
-              'isActive' in item && item.isActive() && "bg-accent",
+              // Highlight if the item is active
+              'isActive' in item && item.isActive?.() && "bg-accent",
+              // Style disabled buttons
               'disabled' in item && item.disabled && "opacity-50 cursor-not-allowed"
             )}
             title={item.title}
