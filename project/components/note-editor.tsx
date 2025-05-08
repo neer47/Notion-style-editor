@@ -8,7 +8,7 @@ import TipTapMenuBar from "./TipTapMenuBar"
 import { useEffect, useState } from "react";
 import { Brain } from "lucide-react";
 import { AIChat } from "./ai-chat";
-import { useNotes } from "@/hooks/use-notes";
+import { useNotes } from "@/hooks/useNotes";
 import { Note } from "@/types/note";
 
 

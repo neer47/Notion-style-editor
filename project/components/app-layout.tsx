@@ -3,7 +3,7 @@
 import React from 'react';
 import { Sidebar } from '@/components/sidebar';
 import { NoteEditor } from '@/components/note-editor';
-import { useNotes } from '@/hooks/use-notes';
+import { useNotes } from '@/hooks/useNotes';
 
 export function AppLayout() {
   const { 
